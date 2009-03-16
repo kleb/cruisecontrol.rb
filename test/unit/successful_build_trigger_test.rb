@@ -35,6 +35,12 @@ class SuccessfulBuildTriggerTest < Test::Unit::TestCase
     assert_equal "1", trigger.last_successful_build.label
   end
 
+  def test_build_not_necessary_if_triggered_project_successfully_built_same_revision
+    create_build @triggering_project, 1
+    create_build @triggered_project, 1
+    assert !@trigger.build_necessary?(reasons = [])
+  end
+
   def test_build_not_necessary_if_triggering_project_has_no_builds_yet
     assert !@trigger.build_necessary?(reasons = [])
   end

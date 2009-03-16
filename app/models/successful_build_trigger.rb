@@ -11,7 +11,8 @@ class SuccessfulBuildTrigger
     new_last_successful_build = last_successful(@triggering_project.builds)
 
     if new_last_successful_build.nil? ||
-       still_the_same_build?(new_last_successful_build) then
+       still_the_same_build?(new_last_successful_build) ||
+       triggered_already_successful?(new_last_successful_build) then
       false
     else
       @last_successful_build = new_last_successful_build
@@ -46,6 +47,12 @@ class SuccessfulBuildTrigger
     @last_successful_build &&
         @last_successful_build != :none &&
         @last_successful_build.label == new_last_successful_build.label
+  end
+
+  def triggered_already_successful?(last_successful_triggering_build)
+    last_successful_triggered_build = last_successful(@triggered_project.builds)
+    last_successful_triggered_build and last_successful_triggering_build ||
+      last_successful_triggered_build.label == last_successful_triggering_build.label
   end
 
   def last_successful(builds)
