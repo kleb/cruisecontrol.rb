@@ -10,17 +10,20 @@ class SuccessfulBuildTrigger
   def build_necessary?(reasons)
     new_last_successful_build = last_successful(@triggering_project.builds)
 
-    if new_last_successful_build.nil? || still_the_same_build?(new_last_successful_build)
+    if new_last_successful_build.nil? ||
+       still_the_same_build?(new_last_successful_build) then
       false
     else
       @last_successful_build = new_last_successful_build
-      reasons << "Triggered by project #{triggering_project_name}'s build #{@last_successful_build.label}"
+      reasons << "Triggered by project #{triggering_project_name}'s build " +
+                 @last_successful_build.label
       true
     end
   end
 
   def last_successful_build
-    @last_successful_build ||= (last_successful(@triggering_project.builds) || :none)
+    @last_successful_build ||=
+      (last_successful(@triggering_project.builds) || :none)
   end
 
   def ==(other)
