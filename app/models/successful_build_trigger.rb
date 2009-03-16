@@ -42,10 +42,10 @@ class SuccessfulBuildTrigger
 
   private
 
-  def still_the_same_build?(new_build)
+  def still_the_same_build?(new_last_successful_build)
     @last_successful_build &&
         @last_successful_build != :none &&
-        @last_successful_build.label == new_build.label
+        @last_successful_build.label == new_last_successful_build.label
   end
 
   def last_successful(builds)
