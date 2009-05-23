@@ -50,12 +50,12 @@ class SuccessfulBuildTriggerTest < Test::Unit::TestCase
     assert !@trigger.build_necessary?(reasons = [])
   end
 
-  def test_last_successful_build_label_is_correct_after_two_triggering_builds
+  def test_triggering_build_sets_trigger_last_successful_build_label
     create_build @triggering_project, 1
     assert_equal '1', @trigger.last_successful_build.label
   end
 
-  def test_last_successful_build_label_is_correct_after_two_triggering_builds
+  def test_repeated_triggering_builds_set_trigger_last_successful_build_label
     create_build @triggering_project, 1
     create_build @triggering_project, 1.1
     assert_equal '1.1', @trigger.last_successful_build.label
